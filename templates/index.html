@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+        <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+
+        <link  href="/static/favicon-16x16.ico" type="image/x-icon" rel="icon" size="16x16">
+        <link  href="/static/favicon-64x64.ico" type="image/x-icon" rel="icon" size="64x64">
+
+        <link href="/static/styles.css" rel="stylesheet">
+        <!--icons for sidebar-->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <title>Penny-Wise : Home</title>
+
+        <!-- Google font-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Danfo&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Protest+Strike&family=Playwrite+Cuba" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <div class="sidebar">
+            <div class="top">
+                <div class="logo">
+                    <img src="/static/favicon-64x64.ico" alt="logo">
+                    <span>Pennywise</span>
+                </div>
+                <i class="bx bx-menu" id='btn'></i>
+            </div>
+            <ul class="font">
+                <li>
+                    <a href="/">
+                        <i class="bx bxs-grid-alt"></i>
+                        <span class="nav-item">Dashboard</span>
+                    </a>
+                    <span class="tooltip font">Mazin</span>
+                </li>
+                <li>
+                    <a href="{{url_for('export')}}">
+                        <i class='bx bxs-file-export' ></i>
+                        <span class="nav-item">Export</span>
+                    </a>
+                    <span class="tooltip font">Export</span>
+                </li>
+                <li>
+                    <a href="#modal">
+                        <i class="bx bx-money"></i>
+                        <span class="nav-item">Set Budget</span>
+                    </a>
+                    <span class="tooltip font">Budget</span>
+                </li>
+                <li id="Logout">
+                    <a href="{{url_for('logout')}}">
+                        <i class="bx bxs-log-out"></i>
+                        <span class="nav-item">Logout</span>
+                    </a>
+                    <span class="tooltip font">Logout</span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="main-content" style="height: 200px; overflow-y: scroll;">
+            <div id="index-body" style="font-family: 'lilita one', sans-serif; font-size: 40px;">
+                {% if balance < 0 %}
+                    <span class="text-center">Current Balance: 0</span>
+                {% else %}
+                    <span class="text-center">Current Balance: ₹<span id="balanceValue">{{balance}}</span>
+                {% endif %}
+            </div>
+            <div class="container-2 font">
+                <div>
+                    <a href="income" id="Income" class="btn btn-outline-success btn-lg ">Income</a>
+                    <a href="clear" id="Clear" class="btn btn-outline-light btn-lg">Clear</a>
+                    <a href="#expense" id="Expense" class="btn btn-outline-danger btn-lg ">Expense</a>
+                </div>
+                <div class="budget-island">
+                    <a id="addBudget" href="#modal" class="budget-btn" style=" color: white; text-decoration: none;" >+</a>
+                    <span class="budg tooltip font">Add budget tabs</span>
+                </div>
+            </div>
+            <table class="table text-center div-style" style="font-size: 25px; color: white; font-family: 'Protest Strike', sans-serif; overflow-y: scroll; color: rgba(255,232,255,0.5)">
+                <thead>
+                  <tr>
+                    <th scope="col">Description</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col" class="type">Type</th>
+                    <th scope="col">Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for row in account|reverse%}  
+                  <tr>
+                    <td>{{ row['description'] }}</td>
+                    <td>₹{{ row['amount'] }}</td>
+                    <td>{{ row['type'] }}</td>
+                    <td>{{ row['date_time'] }}</td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="modal" class="modal-class">
+            <div>
+                <div class="modal-body-1">
+                    <a href="#close" title="close" class="close01">X</a>
+                </div>
+                <div class="modal-body">
+                    <div style="background-color: rgba(255, 255, 255, 1.0); padding: 10px; border-radius: 12px; font-size: 24px; width: 80%; text-align: center;">
+                        <span class="font">Balance: <span class="balance">{{balance}} </span></span>
+                    </div>
+                    <div class="form-floating mb-3 font" style="width: 80%;  ">
+                        <input style="height: 45px;" type="email" class="form-control" id="floatingInput" placeholder="name@example.com" autofocus>
+                        <label style="opacity: 50%;" for="floatingInput">Category</label>
+                    </div>
+
+                    <div class="input-group mb-3" style="width: 80%;">
+                        <span class="input-group-text">₹</span>
+                        <input autofocus type="number" class="form-control category-amount" aria-label="Amount (to the nearest dollar)">
+                        <span class="input-group-text">.00</span>
+                    </div>
+                    <a href="#close" class="btn btn-light font" id="addCategory">Add Category</a>
+                </div> 
+            </div>
+        </div>
+
+        <div id="expense" class="modal-class" >            
+            <div style="background-color: rgb(100, 36, 36);">
+                <div class="modal-body-1">
+                    <a 
+                    href="#close" 
+                    title="close" 
+                    class="close" 
+                    style="background-color: rgba(255, 77, 77, 0.3);">
+                        X
+                    </a>
+                </div>
+                <form method="post" action="/expense">
+                    <div class="modal-body" style="background-color: rgba(255, 255, 255, 0.4);">
+                        <div class="form-floating mb-3 font" style="width: 80%;  ">
+                            <input name="Description" style="height: 45px;" class="form-control" id="floatingInput1" placeholder="name@example.com" autofocus>
+                            <label style="opacity: 50%;" for="floatingInput1">Description</label>
+                        </div>
+                        <div class="form-floating mb-3 font" style="width: 80%;  ">
+                            <input name="Amount" style="height: 45px;" type="number" class="form-control" id="floatingInput2" placeholder="name@example.com" autofocus>
+                            <label style="opacity: 50%;" for="floatingInput1">Amount</label>
+                        </div>
+                        <div class="dropdown" style="width: 80%; display: flex; align-items: center;  justify-content: center;">
+                            <button style= "width: 100%; max-width: 100%; "class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Category Items
+                                <span class="budg tooltip font">Add budget tabs</span>
+                            </button>
+                            <ul class="expense-budget dropdown-menu dropdown-menu-dark">
+                                <li class="dropdown-item">No items found</li>
+                            </ul>
+                        </div>
+                        <button class="btn btn-outline-danger">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- My javascript code-->
+        <script src="/static/script.js" defer></script>
+    </body>
+</html>

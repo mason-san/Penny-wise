@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, width=device-width">
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
+        <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
+
+        <link  href="/static/favicon-16x16.ico" type="image/x-icon" rel="icon" size="16x16">
+        <link  href="/static/favicon-64x64.ico" type="image/x-icon" rel="icon" size="64x64">
+
+        <link href="/static/income.css" rel="stylesheet">
+        <!--icons for sidebar-->
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+        <title>Penny-Wise : {% block title %}{% endblock %}</title>
+
+        <!-- Google font-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Danfo&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Protest+Strike&family=Playwrite+Cuba" rel="stylesheet">
+
+    </head>
+
+    <body>
+        
+        <div class="main-content center-page" style="position: relative; bottom: 50px;">
+            <form method="POST" action="/income" class="income">
+                <input required type="text" placeholder="Description" name="Description" autofocus autocomplete="off" class="inputField font">
+                <span id="description" class="font" style="opacity: 0; background-color: white; color: black; border-radius: 12px; padding: 10px 10px; transition: all 0.4s ease;">Enter the description of the amount</span>
+                <input required type="number" placeholder="Amount" name="Amount" autocomplete="off" class="inputField font">
+                <span id="amount" class="font" style="opacity: 0; background-color: white; color: black; border-radius: 12px; padding: 10px 10px; transition: all 0.4s ease;">Enter the amount</span>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+</body>
+
+<script>
+    const input = document.querySelector('input[type="text"]'); 
+    input.addEventListener('mouseover', function(){
+        document.getElementById('description').style.opacity = '1'; 
+    });
+    input.addEventListener('mouseout', function(){
+        document.getElementById('description').style.opacity = '0'; 
+    });
+    const amount = document.querySelector('input[type = "number"]');
+    amount.addEventListener('mouseover',function(){
+        document.getElementById('amount').style.opacity = '1'; 
+    })
+    amount.addEventListener('mouseout',function(){
+        document.getElementById('amount').style.opacity = '0'; 
+    })
+</script>
+
+</html>
